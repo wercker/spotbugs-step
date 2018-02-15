@@ -1,9 +1,8 @@
 name: spotbugs 
 version: 3.1.1
-summary: This step runs SpotBugs on the current Java project end output the result to the output according to the format specified.
-tags:
+keywords:
   - spotbugs
-  - bugs
+summary: This step runs SpotBugs on the current Java project end output the result to the output according to the format specified.
 properties:
   - name: output 
     type: string
