@@ -3,8 +3,8 @@
 
 # check that all of the required parameters were provided
 # note that wercker does not enforce this for us, so we have to check
-if [[ -z "$WERCKER_SPOTBUGS_OUTPUT" || -z "$WERCKER_SPOTBUGS_FORMAT" ]]; then
-  fail "$(date +%H:%M:%S): All required parameters: output and format MUST be specified"
+if [[ -z "$WERCKER_SPOTBUGS_FORMAT" || -z "$WERCKER_SPOTBUGS_OUTPUT" || -z "$WERCKER_SPOTBUGS_TARGET" ]]; then
+  fail "$(date +%H:%M:%S): All required parameters: format, output and target MUST be specified"
 fi
 
 # try to find Java
@@ -44,18 +44,42 @@ if [[ -z "$JAVA_HOME" ]]; then
 fi
 echo "$(date +%H:%M:%S): Found JAVA_HOME at $JAVA_HOME"
 
-########################### Install tar package ########################
+# install gzip
+yum install gzip
+
+# install tar
 yum install tar
 
-########################### Install SpotBugs ########################### 
+# install curl
+yum install curl
+
+# check that tar is installed
+hash tar 2>/dev/null || { echo "$(date +%H:%M:%S):  tar is required, install tar before this step"; exit 1; }
+
+# check that gzip is installed
+hash gzip 2>/dev/null || { echo "$(date +%H:%M:%S):  gzip is required, install gzip before this step"; exit 1; }
+
+# check that curl is installed
+hash curl 2>/dev/null || { echo "$(date +%H:%M:%S):  curl is required to install maven, install curl before this step."; exit 1; }
+
+# install SpotBugs 
+# download the latest spotbugs release 
 SPOTBUGS_VERSION=3.1.1 
-# Download the latest spotbugs release 
-curl -sL http://repo.maven.apache.org/maven2/com/github/spotbugs/spotbugs/${SPOTBUGS_VERSION}/spotbugs-${SPOTBUGS_VERSION}.tgz | \ tar -xz && \ 
-mv spotbugs-* /usr/bin/spotbugs 
+curl -O http://repo.maven.apache.org/maven2/com/github/spotbugs/spotbugs/${SPOTBUGS_VERSION}/spotbugs-${SPOTBUGS_VERSION}.tgz
+tar xvf spotbugs-${SPOTBUGS_VERSION}.tgz 
+mv spotbugs-* /spotbugs 
+rm spotbugs-${SPOTBUGS_VERSION}.tgz 
+export PATH=$PATH:/spotbugs/bin
 
 #
 # Get ready to start the SpotBugs
 #
+
+if [[ -z "$WERCKER_SPOTBUGS_FORMAT" ]]; then
+  FORMAT=""
+else
+  FORMAT="$WERCKER_SPOTBUGS_FORMAT"
+fi
 
 if [[ -z "$WERCKER_SPOTBUGS_OUTPUT" ]]; then
   OUTPUT=""
@@ -63,8 +87,13 @@ else
   OUTPUT="-output $WERCKER_SPOTBUGS_OUTPUT"
 fi
 
-if [[ -z "$WERCKER_SPOTBUGS_FORMAT" ]]; then
-  FORMAT=""
+if [[ -z "$WERCKER_SPOTBUGS_TARGET" ]]; then
+  TARGET="."
 else
-  FORMAT="-$WERCKER_SPOTBUGS_FORMAT"
+  TARGET="$WERCKER_SPOTBUGS_TARGET"
 fi
+
+#
+# run the SpotBugs command
+#
+spotbugs -textui $FORMAT $OUTPUT $TARGET
