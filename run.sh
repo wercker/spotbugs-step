@@ -44,11 +44,13 @@ if [[ -z "$JAVA_HOME" ]]; then
 fi
 echo "$(date +%H:%M:%S): Found JAVA_HOME at $JAVA_HOME"
 
+########################### Install tar package ########################
+yum install tar
+
 ########################### Install SpotBugs ########################### 
-SPOTBUGS_VERSION=3.1.1 WORKDIR /usr/workdir 
-#apk add --update \ curl \ && rm -rf /var/cache/apk/* 
+SPOTBUGS_VERSION=3.1.1 
 # Download the latest spotbugs release 
-curl -sL http://repo.maven.apache.org/maven2/com/github/spotbugs/spotbugs/i${SPOTBUGS_VERSION}/spotbugs-${SPOTBUGS_VERSION}.tgz | \ tar -xz && \ 
+curl -sL http://repo.maven.apache.org/maven2/com/github/spotbugs/spotbugs/${SPOTBUGS_VERSION}/spotbugs-${SPOTBUGS_VERSION}.tgz | \ tar -xz && \ 
 mv spotbugs-* /usr/bin/spotbugs 
 
 #
