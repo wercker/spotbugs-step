@@ -10,6 +10,6 @@ properties:
   - name: output 
     type: string
     required: true
-  - name: target 
+  - name: classpath
     type: string
     required: true

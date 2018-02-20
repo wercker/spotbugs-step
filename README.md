@@ -2,7 +2,7 @@ Wercker SpotBugs Step
 
 A Wercker step to run SpotBugs on a Java project.
 
-This step will download and install SpotBugs, curl, tar, gzip and then execute the goals you have requested. You must provide the output format, output file including path and the target.
+This step will download and install SpotBugs, curl, tar, gzip and then execute the goals you have requested. You must provide the output format, output file including path and the classpath.
 
 The box that you run this step in must either have curl, tar, gzip, installed in it. 
 
@@ -16,7 +16,7 @@ build:
     - justin-hoang/spotbugs-step:
       format: -xml
       output: /home/result.out
-      target: build/classes 
+      classpath: build/classes 
 
 After the SpotBugs step has completed, you will see the result in your output file specified.
 
