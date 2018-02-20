@@ -3,7 +3,7 @@
 
 # check that all of the required parameters were provided
 # note that wercker does not enforce this for us, so we have to check
-if [[ -z "$WERCKER_SPOTBUGS_STEP_FORMAT" || -z "$WERCKER_SPOTBUGS_STEP_OUTPUT" || -z "$WERCKER_SPOTBUGS_STEP_TARGET" ]]; then
+if [[ -z "$WERCKER_SPOTBUGS_STEP_FORMAT" || -z "$WERCKER_SPOTBUGS_STEP_OUTPUT" || -z "$WERCKER_SPOTBUGS_STEP_CLASSPATH" ]]; then
   fail "$(date +%H:%M:%S): All required parameters: format, output and target MUST be specified"
 fi
 
@@ -87,13 +87,13 @@ else
   OUTPUT="-output $WERCKER_SPOTBUGS_STEP_OUTPUT"
 fi
 
-if [[ -z "$WERCKER_SPOTBUGS_STEP_TARGET" ]]; then
-  TARGET="."
+if [[ -z "$WERCKER_SPOTBUGS_STEP_CLASSPATH" ]]; then
+  CLASSPATH="."
 else
-  TARGET="$WERCKER_SPOTBUGS_STEP_TARGET"
+  CLASSPATH="$WERCKER_SPOTBUGS_STEP_CLASSPATH"
 fi
 
 #
 # run the SpotBugs command
 #
-spotbugs -textui $FORMAT $OUTPUT $TARGET
+spotbugs -textui $FORMAT $OUTPUT $CLASSPATH
