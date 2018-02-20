@@ -43,9 +43,9 @@ Format parameter:
 -output filename:
     Produce the output in the specified file.
 
-Target parameter:
+Classpath parameter:
 jar/zip/class files, directories...
 
 Sample Application
 
-A sample application is provided at https://github.com/justin-hoang/sample-spotbugs-step that demonstrates how to use this step.
+A sample application is provided at https://github.com/justin-hoang/sample-spotbugs-step that shows how to use this SpotBugs step.
