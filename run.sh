@@ -45,13 +45,13 @@ fi
 echo "$(date +%H:%M:%S): Found JAVA_HOME at $JAVA_HOME"
 
 # install gzip
-yum install gzip
+yes | yum install gzip
 
 # install tar
-yum install tar
+yes | yum install tar
 
 # install curl
-yum install curl
+yes | yum install curl
 
 # check that tar is installed
 hash tar 2>/dev/null || { echo "$(date +%H:%M:%S):  tar is required, install tar before this step"; exit 1; }
