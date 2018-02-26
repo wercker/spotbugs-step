@@ -67,7 +67,7 @@ hash curl 2>/dev/null || { echo "$(date +%H:%M:%S):  curl is required to install
 SPOTBUGS_VERSION=3.1.1 
 curl -O http://repo.maven.apache.org/maven2/com/github/spotbugs/spotbugs/${SPOTBUGS_VERSION}/spotbugs-${SPOTBUGS_VERSION}.tgz
 tar xvf spotbugs-${SPOTBUGS_VERSION}.tgz 
-mv spotbugs-* /spotbugs 
+mv spotbugs-${SPOTBUGS_VERSION} /spotbugs 
 rm spotbugs-${SPOTBUGS_VERSION}.tgz 
 export PATH=$PATH:/spotbugs/bin
 
