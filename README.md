@@ -11,12 +11,15 @@ Usage
 
 To use this step, include it in your wercker.yml pipeline, for example:
 
-build:
-steps:
-  - justin-hoang/spotbugs-step:
-    format: -xml
-    output: ./result.log
-    classpath: target/classes 
+```
+regular-test:
+  steps:
+    - justin-hoang/spotbugs-step:
+      format: -xml
+      output: ./result.log
+      classpath: target/classes
+```
+
 
 After the SpotBugs step has completed, you will see the result in your output file specified.
 
